@@ -45,6 +45,30 @@ async function register(req, res) {
   }
 }
 
-async function login(req, res) {}
+async function login(req, res) {
+  const { username, password } = req.body;
+
+  const user = await User.findOne({ username });
+  if (!user) {
+    return res.status(400).json({
+      success: false,
+      message: `there is no user with name ${username}.`,
+    });
+  }
+
+  const checkPassword = await bcrypt.compare(password, user.password);
+  if (!checkPassword) {
+    return res.status(400).json({
+      success: false,
+      message: "wrong password provided try again",
+    });
+  }
+
+  res.status(200).json({
+    success: true,
+    message: `welcome ${username}`,
+    user: user,
+  });
+}
 
 module.exports = { register, login };
