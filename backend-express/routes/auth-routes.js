@@ -1,19 +1,9 @@
 const express = require("express");
-
+const { register, login } = require("../controllers/auth-controller.js");
 const routers = express.Router();
 
-routers.post("/register", (req, res) => {
-  const value = req.body.value;
-  res.json({
-    message: "copy that!",
-    bodyValue: value,
-  });
-});
+routers.post("/register", register);
 
-routers.post("/login", (req, res) => {
-  res.json({
-    message: "copy that!",
-  });
-});
+routers.post("/login", login);
 
 module.exports = routers;
